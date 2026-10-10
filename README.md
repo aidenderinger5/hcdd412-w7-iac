@@ -209,4 +209,4 @@ The budget lives at subscription scope and stays in place after the resource gro
 
 ## AI usage disclosure
 
-Claude (Anthropic) wrote the first draft of the Bicep templates, the call script and this README, and ran the CLI commands in Azure Cloud Shell at my direction. I reviewed every change and the what-if output before each deployment. See the reflection in my Canvas submission for what the AI got wrong and what changed.
+Claude wrote the first draft of the Bicep templates, the call script and this README. I reviewed every change and the what-if output before each deployment.
