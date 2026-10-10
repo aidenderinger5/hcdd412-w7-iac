@@ -1,0 +1,56 @@
+Note: The result may contain false positive predictions (noise).
+You can help us improve the accuracy of the result by opening an issue here: https://aka.ms/WhatIfIssues
+NOTICE! - Want to get What-if without noise? Move to Deployment Stacks What-If https://aka.ms/stackswhatifGA
+
+Resource and property changes are indicated with this symbol:
+  + Create
+
+The deployment will update the following scope:
+
+Scope: /subscriptions/<subscription-id>/resourceGroups/rg-hcdd412-w7
+
+  + Microsoft.CognitiveServices/accounts/lang-aiden-dev-ueccq [2025-06-01]
+
+      apiVersion:                     "2025-06-01"
+      id:                             "/subscriptions/<subscription-id>/resourceGroups/rg-hcdd412-w7/providers/Microsoft.CognitiveServices/accounts/lang-aiden-dev-ueccq"
+      kind:                           "TextAnalytics"
+      location:                       "westus"
+      name:                           "lang-aiden-dev-ueccq"
+      properties.customSubDomainName: "lang-aiden-dev-ueccq"
+      properties.publicNetworkAccess: "Enabled"
+      sku.name:                       "F0"
+      tags.assignment:                "w7-iac"
+      tags.course:                    "hcdd412"
+      tags.env:                       "dev"
+      type:                           "Microsoft.CognitiveServices/accounts"
+
+  + Microsoft.Web/serverfarms/plan-aiden-dev [2025-03-01]
+
+      apiVersion:          "2025-03-01"
+      id:                  "/subscriptions/<subscription-id>/resourceGroups/rg-hcdd412-w7/providers/Microsoft.Web/serverfarms/plan-aiden-dev"
+      kind:                "linux"
+      location:            "westus"
+      name:                "plan-aiden-dev"
+      properties.reserved: true
+      sku.name:            "F1"
+      tags.assignment:     "w7-iac"
+      tags.course:         "hcdd412"
+      tags.env:            "dev"
+      type:                "Microsoft.Web/serverfarms"
+
+  + Microsoft.Web/sites/app-aiden-dev-ueccq [2025-03-01]
+
+      apiVersion:              "2025-03-01"
+      id:                      "/subscriptions/<subscription-id>/resourceGroups/rg-hcdd412-w7/providers/Microsoft.Web/sites/app-aiden-dev-ueccq"
+      kind:                    "app,linux"
+      location:                "westus"
+      name:                    "app-aiden-dev-ueccq"
+      properties.httpsOnly:    true
+      properties.serverFarmId: "/subscriptions/<subscription-id>/resourceGroups/rg-hcdd412-w7/providers/Microsoft.Web/serverfarms/plan-aiden-dev"
+      properties.siteConfig:   "*******"
+      tags.assignment:         "w7-iac"
+      tags.course:             "hcdd412"
+      tags.env:                "dev"
+      type:                    "Microsoft.Web/sites"
+
+Resource changes: 3 to create.

@@ -1,0 +1,26 @@
+Note: The result may contain false positive predictions (noise).
+You can help us improve the accuracy of the result by opening an issue here: https://aka.ms/WhatIfIssues
+NOTICE! - Want to get What-if without noise? Move to Deployment Stacks What-If https://aka.ms/stackswhatifGA
+
+Resource and property changes are indicated with these symbols:
+  - Delete
+  + Create
+  ~ Modify
+  = Nochange
+
+The deployment will update the following scope:
+
+Scope: /subscriptions/<subscription-id>/resourceGroups/rg-hcdd412-w7
+
+  ~ Microsoft.CognitiveServices/accounts/lang-aiden-dev-ueccq [2025-06-01]
+    - properties.allowProjectManagement: false
+
+  ~ Microsoft.Web/sites/app-aiden-dev-ueccq [2025-03-01]
+    + properties.siteConfig.ftpsState:           "Disabled"
+    + properties.siteConfig.localMySqlEnabled:   false
+    + properties.siteConfig.minTlsVersion:       "1.2"
+    + properties.siteConfig.netFrameworkVersion: "v4.6"
+
+  = Microsoft.Web/serverfarms/plan-aiden-dev [2025-03-01]
+
+Resource changes: 2 to modify, 1 no change.

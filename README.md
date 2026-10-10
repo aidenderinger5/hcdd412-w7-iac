@@ -53,11 +53,144 @@ az deployment group what-if -g rg-hcdd412-w7 -f main.bicep -p appName=<yourid>
 
 ## Preview evidence
 
-_Pending deployment._
+Run 1, before the first deployment (`az deployment group what-if`):
+
+```text
+Note: The result may contain false positive predictions (noise).
+You can help us improve the accuracy of the result by opening an issue here: https://aka.ms/WhatIfIssues
+NOTICE! - Want to get What-if without noise? Move to Deployment Stacks What-If https://aka.ms/stackswhatifGA
+
+Resource and property changes are indicated with this symbol:
+  + Create
+
+The deployment will update the following scope:
+
+Scope: /subscriptions/<subscription-id>/resourceGroups/rg-hcdd412-w7
+
+  + Microsoft.CognitiveServices/accounts/lang-aiden-dev-ueccq [2025-06-01]
+
+      apiVersion:                     "2025-06-01"
+      id:                             "/subscriptions/<subscription-id>/resourceGroups/rg-hcdd412-w7/providers/Microsoft.CognitiveServices/accounts/lang-aiden-dev-ueccq"
+      kind:                           "TextAnalytics"
+      location:                       "westus"
+      name:                           "lang-aiden-dev-ueccq"
+      properties.customSubDomainName: "lang-aiden-dev-ueccq"
+      properties.publicNetworkAccess: "Enabled"
+      sku.name:                       "F0"
+      tags.assignment:                "w7-iac"
+      tags.course:                    "hcdd412"
+      tags.env:                       "dev"
+      type:                           "Microsoft.CognitiveServices/accounts"
+
+  + Microsoft.Web/serverfarms/plan-aiden-dev [2025-03-01]
+
+      apiVersion:          "2025-03-01"
+      id:                  "/subscriptions/<subscription-id>/resourceGroups/rg-hcdd412-w7/providers/Microsoft.Web/serverfarms/plan-aiden-dev"
+      kind:                "linux"
+      location:            "westus"
+      name:                "plan-aiden-dev"
+      properties.reserved: true
+      sku.name:            "F1"
+      tags.assignment:     "w7-iac"
+      tags.course:         "hcdd412"
+      tags.env:            "dev"
+      type:                "Microsoft.Web/serverfarms"
+
+  + Microsoft.Web/sites/app-aiden-dev-ueccq [2025-03-01]
+
+      apiVersion:              "2025-03-01"
+      id:                      "/subscriptions/<subscription-id>/resourceGroups/rg-hcdd412-w7/providers/Microsoft.Web/sites/app-aiden-dev-ueccq"
+      kind:                    "app,linux"
+      location:                "westus"
+      name:                    "app-aiden-dev-ueccq"
+      properties.httpsOnly:    true
+      properties.serverFarmId: "/subscriptions/<subscription-id>/resourceGroups/rg-hcdd412-w7/providers/Microsoft.Web/serverfarms/plan-aiden-dev"
+      properties.siteConfig:   "*******"
+      tags.assignment:         "w7-iac"
+      tags.course:             "hcdd412"
+      tags.env:                "dev"
+      type:                    "Microsoft.Web/sites"
+
+Resource changes: 3 to create.
+```
+
+Run 2, the same command after deploying. It shows 2 Modify but nothing to create or delete. Both are known what-if noise, not drift: ARM does not return siteConfig when it reads a web app, so what-if always lists those properties as added, and allowProjectManagement is a server-side default from the 2025-06-01 API that the template does not set. The live values in evidence/live-config.txt match the template:
+
+```text
+Note: The result may contain false positive predictions (noise).
+You can help us improve the accuracy of the result by opening an issue here: https://aka.ms/WhatIfIssues
+NOTICE! - Want to get What-if without noise? Move to Deployment Stacks What-If https://aka.ms/stackswhatifGA
+
+Resource and property changes are indicated with these symbols:
+  - Delete
+  + Create
+  ~ Modify
+  = Nochange
+
+The deployment will update the following scope:
+
+Scope: /subscriptions/<subscription-id>/resourceGroups/rg-hcdd412-w7
+
+  ~ Microsoft.CognitiveServices/accounts/lang-aiden-dev-ueccq [2025-06-01]
+    - properties.allowProjectManagement: false
+
+  ~ Microsoft.Web/sites/app-aiden-dev-ueccq [2025-03-01]
+    + properties.siteConfig.ftpsState:           "Disabled"
+    + properties.siteConfig.localMySqlEnabled:   false
+    + properties.siteConfig.minTlsVersion:       "1.2"
+    + properties.siteConfig.netFrameworkVersion: "v4.6"
+
+  = Microsoft.Web/serverfarms/plan-aiden-dev [2025-03-01]
+
+Resource changes: 2 to modify, 1 no change.
+```
+
+Raw copies are in `evidence/`. Subscription IDs are replaced with `<subscription-id>`.
 
 ## AI Service Proof of Concept
 
-_Pending deployment._
+One live call to Azure AI Language sentiment analysis (F0 tier) via `scripts/call-language.sh`. The key was read into the `LANG_KEY` environment variable for the shell session only.
+
+Input (non-sensitive sample text): "The deployment finished cleanly and the team is thrilled."
+
+Response:
+
+```json
+{
+    "kind": "SentimentAnalysisResults",
+    "results": {
+        "documents": [
+            {
+                "id": "1",
+                "sentiment": "positive",
+                "confidenceScores": {
+                    "positive": 1.0,
+                    "neutral": 0.0,
+                    "negative": 0.0
+                },
+                "sentences": [
+                    {
+                        "sentiment": "positive",
+                        "confidenceScores": {
+                            "positive": 1.0,
+                            "neutral": 0.0,
+                            "negative": 0.0
+                        },
+                        "offset": 0,
+                        "length": 57,
+                        "text": "The deployment finished cleanly and the team is thrilled."
+                    }
+                ],
+                "warnings": []
+            }
+        ],
+        "errors": [],
+        "modelVersion": "2025-01-01"
+    }
+}
+```
+
+Where it sits: behind my Week 6 inference boundary, only the backend web app calls this endpoint, server-side, with the key held in app settings or Key Vault, so the browser never sees the key and only non-sensitive text crosses the boundary.
 
 ## Clean up
 

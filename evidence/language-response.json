@@ -1,0 +1,32 @@
+{
+    "kind": "SentimentAnalysisResults",
+    "results": {
+        "documents": [
+            {
+                "id": "1",
+                "sentiment": "positive",
+                "confidenceScores": {
+                    "positive": 1.0,
+                    "neutral": 0.0,
+                    "negative": 0.0
+                },
+                "sentences": [
+                    {
+                        "sentiment": "positive",
+                        "confidenceScores": {
+                            "positive": 1.0,
+                            "neutral": 0.0,
+                            "negative": 0.0
+                        },
+                        "offset": 0,
+                        "length": 57,
+                        "text": "The deployment finished cleanly and the team is thrilled."
+                    }
+                ],
+                "warnings": []
+            }
+        ],
+        "errors": [],
+        "modelVersion": "2025-01-01"
+    }
+}
