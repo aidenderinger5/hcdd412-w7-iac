@@ -1,0 +1,18 @@
+# Terraform state (not used by Bicep, kept per course template)
+*.tfstate
+*.tfstate.*
+.terraform/
+
+# Secrets and local settings - never commit
+.env
+.env.*
+*.pem
+*.key
+local.settings.json
+*.local.bicepparam
+*.secrets.json
+
+# Bicep build output
+*.json.bak
+main.json
+budget.json
